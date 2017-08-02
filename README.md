@@ -4,7 +4,6 @@ a simple issues system , *just like github issue ,but not such powerful*
 
 create a issue ,then system will email yourself and  techsupport .
 
-token could be used for private view . without it , visitor could only see public infos.
 
 settings.py should be configed , example is avail. 
 
@@ -19,6 +18,7 @@ settings.py should be configed , example is avail.
 
 ![pig1](https://user-images.githubusercontent.com/6398936/28869387-20cff88e-77af-11e7-94ef-7892384e9f4f.png)
 
+token could be used for private view . without it , visitor could only see public infos.
 
 ## NEXT
 
