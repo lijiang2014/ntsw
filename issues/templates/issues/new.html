@@ -1,0 +1,131 @@
+{% extends "base_form.html" %}
+
+{% block legend %}
+Creat a new issue
+{% endblock %}
+
+{% block content_form %}
+
+
+
+<form action="" method="POST">
+{% csrf_token %}
+
+{% for field in form.visible_fields %}
+
+<div class="form-group" id="div_{{ field.name  }}">
+  <label class="col-md-4 control-label"> {{ field.label_tag }} </label>  
+        {{ field.errors }}
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+      {% if field.help_text %}
+{% if field.help_text == "none" %}
+{% else %}
+  <span class="input-group-addon"><i class="{{ field.help_text }}"></i></span>
+ {% endif %}
+  {% else %}
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+  {% endif %}
+  {{ field }}
+</div>
+  </div>
+</div>
+
+
+{% endfor %}
+
+
+
+
+<div id="jobdiv" style="display: none;">
+
+<!-- -->
+{% for field in jform.visible_fields %}
+<div class="form-group" id="div_{{ field.name  }}">
+  <label class="col-md-4 control-label"> {{ field.label_tag }} </label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+      {% if field.help_text %}
+{% if field.help_text == "none" %}
+{% else %}
+  <span class="input-group-addon"><i class="{{ field.help_text }}"></i></span>
+ {% endif %}
+  {% else %}
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+  {% endif %}
+  {{ field.errors }}
+  {{ field }}
+</div>
+  </div>
+</div>
+
+
+{% endfor %}
+
+
+<!-- -->
+
+
+ 
+</div>  <!-- div jobdiv end -->
+
+{% if message_error %}
+<div >
+<button class="btn btn-danger btn-lg focus ">{{ message_error }}  </button>
+</div>
+{% endif%}
+
+<div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-warning">Send <span class="glyphicon glyphicon-send"></span></button>
+  </div>
+  <!--div class="col-md-4">
+    <a id="save" href="#" class="btn btn-warning">save <span class="glyphicon glyphicon-send"></span></a>
+  </div-->
+</div>
+
+
+</form>
+
+
+{% endblock %}
+
+
+{% block on_ready %}
+
+ 
+/* var regPub = $("#id_issue-description_public");*/
+var regPub = $("#div_description_public");
+
+
+regPub.hide();
+
+        $("input[name='issue-public']").change(function(){
+            that = $("input[name='issue-public']:checked");
+            console.log( that.val() );
+            if(that.val() == "True" ){
+                regPub.show();
+            }else{
+                regPub.hide();
+            }
+        });
+$("input[name='issue-public']").trigger("change");
+
+ var regjobissue = $("#jobdiv");
+        $("input[name='issue-isjob']").change(function(){
+            var that = $("input[name='issue-isjob']:checked");     
+            if(that.val() == "True"){
+                regjobissue.show();
+            }else{
+                regjobissue.hide();
+            }
+        });
+$("input[name='issue-isjob']").trigger("change");
+
+
+
+
+{% endblock %}
+
+   

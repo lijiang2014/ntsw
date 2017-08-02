@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags %}
+
+{% block legend %}
+ issue {{ issue.pk }} :  {{ issue.title }} 
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="well form-horizontal" >
+<fieldset>
+{{  private_right }}
+  {% if private_right %}
+
+  <!-- issue system account  -->
+<div class="form-group" ><label class="col-md-4 control-label"> System Account </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+<span  class="form-control">{{ issue.system_account }} </span>
+</div></div></div>
+<!-- issue conn_email  -->
+<div class="form-group" ><label class="col-md-4 control-label"> Conn Email </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+<span  class="form-control">{{ issue.conn_email }} </span>
+</div></div></div>
+
+
+
+  {% else %}
+  <h2> Private infos are not available for you ! </h2> 
+  {% endif %}
+
+
+<!-- issue tags  -->
+<div class="form-group" ><label class="col-md-4 control-label"> tags </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
+<span  class="form-control">{{ issue.tags }} </span>
+</div></div></div>
+
+<!-- issue time  -->
+<div class="form-group" ><label class="col-md-4 control-label"> time </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+<span  class="form-control">{{ issue.issue_time }} </span>
+</div></div></div>
+
+
+<!-- issue submit time  -->
+<div class="form-group" ><label class="col-md-4 control-label"> submit time </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+<span  class="form-control">{{ issue.issue_submit_time }} </span>
+</div></div></div>
+
+<!-- job infos -->
+{% if job and private_right %}
+ 
+
+<!-- issue jobid  -->
+<div class="form-group" ><label class="col-md-4 control-label"> job id </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+<span  class="form-control">{{ job.jobid }} </span>
+</div></div></div>
+
+<!-- issue software  -->
+{% if job.software  %}
+<div class="form-group" ><label class="col-md-4 control-label"> software </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+<span  class="form-control">{{ job.software }} </span>
+</div></div></div>
+{% endif %}
+<!-- issue  submit node -->
+{% if job.submit_ln  %}
+
+<div class="form-group" ><label class="col-md-4 control-label"> submit node </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+<span  class="form-control">{{ job.submit_ln }} </span>
+</div></div></div>
+{% endif %}
+
+<!-- issue jobid  -->
+{% if job.workdir  %}
+
+<div class="form-group" ><label class="col-md-4 control-label"> work dir </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+<span  class="form-control">{{ job.workdir }} </span>
+</div></div></div>
+{% endif %}
+
+<!-- issue jobid  -->
+{% if job.submit_env  %}
+
+<div class="form-group" ><label class="col-md-4 control-label"> job env </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+<span  class="form-control">{{ job.submit_env }} </span>
+</div></div></div>
+{% endif %}
+
+<!-- issue jobid  -->
+{% if job.submit_cmd  %}
+
+<div class="form-group" ><label class="col-md-4 control-label"> submit cmd </label>  
+  <div class="col-md-4 inputGroupContainer"><div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+<span  class="form-control">{{ job.submit_cmd }} </span>
+</div></div></div>
+{% endif %}
+
+
+{% endif %}
+<!-- job infos end -->
+
+
+
+{% if issue.public %}
+<!-- issue tags  -->
+<h2 > description public :</h2>  <br>
+
+<div class="bg-warning">
+  <code class="col-md-12 bg-warning text-muted">
+  {{ issue.description_public |markdown }} 
+  </code>
+</div>
+{% endif %}
+
+<!-- issue description  -->
+  {% if private_right %}
+
+<h2 > description :</h2>  <br>
+
+<div class="bg-warning">
+  <code class="col-md-12 bg-warning text-muted ">
+  {{ issue.description |markdown }} 
+  </code>
+</div>
+  {% endif %}
+
+
+
+
+
+<!-- outer div end  -->
+</fieldset></div>
+
+{% endblock %}
+
+{% block on_ready %}
+
+{% endblock %}
+
+   

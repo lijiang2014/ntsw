@@ -1,0 +1,8 @@
+ntsw/settings.py 
+*.pyc
+*.sqlite3
+*/migrations
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+
