@@ -8,6 +8,9 @@ token could be used for private view . without it , visitor could only see publi
 
 settings.py should be configed , example is avail. 
 
+![pig1](https://user-images.githubusercontent.com/6398936/28869387-20cff88e-77af-11e7-94ef-7892384e9f4f.png)
+
+![pig2](https://user-images.githubusercontent.com/6398936/28869408-2c2a66e2-77af-11e7-98ee-d27329d45a7f.png)
 ## NEXT
 
 if this resp is useful , more functions will be add later :
