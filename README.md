@@ -20,6 +20,24 @@ settings.py should be configed , example is avail.
 
 token could be used for private view . without it , visitor could only see public infos.
 
+## setups 
+
+```
+pip install django==1.11.4
+pip install django-markdown_deux==1.0.5
+cp ntsw/settings_example.py ntsw/settings.py
+python manage.py makemigrations issues
+python manage.py migrate
+python manage.py createsuperuser
+vi ntsw/settings.py
+```
+
+run :
+
+```
+python manage.py runserver 0.0.0.0:8000
+```
+
 ## NEXT
 
 if this resp is useful , more functions will be add later :
