@@ -1,0 +1,187 @@
+{% load markdown_deux_tags %}
+
+{% block legend %}
+<h1> issue {{ issue.pk }} :  {{ issue.title }} </h1>
+<h2> token : {{ token }} </h2> 
+{% endblock %}
+
+
+<table border=1>
+
+
+
+  <!-- issue system account  -->
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> System Account </label>  
+    </td>
+<td>
+<span  class="form-control">{{ issue.system_account }} </span>
+</td>
+  </tr>
+<!-- issue conn_email  -->
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> Conn Email </label>  
+    </td>
+<td>
+<span  class="form-control">{{ issue.conn_email }} </span>
+</td>
+  </tr>
+<!-- issue tags  -->
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> tags </label>  
+    </td>
+<td>
+<span  class="form-control">{{ issue.tags }} </span>
+</td>
+  </tr>
+
+
+
+<!-- issue time  -->
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> time</label>  
+    </td>
+<td>
+<span  class="form-control">{{ issue.issue_time }} </span>
+</td>
+  </tr>
+
+
+
+
+
+<!-- issue submit time  -->
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> submit time</label>  
+    </td>
+<td>
+<span  class="form-control">{{ issue.issue_submit_time }} </span>
+</td>
+  </tr>
+
+
+<!-- job infos -->
+ {% if job %}
+
+<!-- issue jobid  -->
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> job id</label>  
+    </td>
+<td>
+<span  class="form-control">{{ job.jobid }}  </span>
+</td>
+  </tr>
+
+
+
+<!-- issue software  -->
+
+
+
+{% if job.software  %}
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> software</label>  
+    </td>
+<td>
+<span  class="form-control">{{ job.software }}  </span>
+</td>
+  </tr>
+{% endif %}
+<!-- issue  submit node -->
+{% if job.submit_ln  %}
+
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> submit node</label>  
+    </td>
+<td>
+<span  class="form-control">{{ job.submit_ln }}  </span>
+</td>
+  </tr>
+
+{% endif %}
+
+<!-- issue jobid  -->
+{% if job.workdir  %}
+
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> work dir</label>  
+    </td>
+<td>
+<span  class="form-control">{{ job.workdir }}  </span>
+</td>
+  </tr>
+
+
+{% endif %}
+
+<!-- issue jobid  -->
+{% if job.submit_env  %}
+
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> job env </label>  
+    </td>
+<td>
+<span  class="form-control">{{ job.submit_env}}  </span>
+</td>
+  </tr>
+
+
+{% endif %}
+
+<!-- issue jobid  -->
+{% if job.submit_cmd  %}
+
+  <tr>
+    <td>
+      <label class="col-md-4 control-label"> job cmd </label>  
+    </td>
+<td>
+<span  class="form-control">{{ job.submit_cmd}}  </span>
+</td>
+  </tr>
+
+
+{% endif %}
+
+
+{% endif %}
+<!-- job infos end -->
+
+</table>
+
+
+<!-- issue tags  -->
+<h2 > description public :</h2>  <br>
+
+<div class="bg-warning">
+  <code class="col-md-12 bg-warning text-muted">
+  {{ issue.description_public |markdown }} 
+  </code>
+</div>
+
+<!-- issue description  -->
+
+<h2 > description :</h2>  <br>
+
+<div class="bg-warning">
+  <code class="col-md-12 bg-warning text-muted ">
+  {{ issue.description |markdown }} 
+  </code>
+</div>
+
+
+<!-- outer div end  -->
+
+
+
+   

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse , FileResponse , StreamingHttpResponse ,HttpResponseRedirect
+from django.http import HttpResponse , FileResponse , StreamingHttpResponse ,HttpResponseRedirect ,HttpRequest
 from django.urls import reverse
 from django import forms
 from django.forms import ModelForm
@@ -74,7 +74,7 @@ email_pass = settings.ISSUE_CONF['email_pass']
 def email_send( title , recivers , content  ) :
     try :
         title = "[AutoMail][NewIssue]" + title 
-        msg = MIMEText(content)
+        msg = MIMEText(content )
         msg['Subject'] = title
         msg['From'] = email_user
         msg['To'] = ','.join(recivers)
@@ -85,6 +85,19 @@ def email_send( title , recivers , content  ) :
     except Exception as e :
         print("email_send error:" , e )
 
+def email_send_html( title , recivers , content  ) :
+    try :
+        title = "[AutoMail][NewIssue]" + title 
+        msg = MIMEText(content , "HTML" , "utf-8")
+        msg['Subject'] = title
+        msg['From'] = email_user
+        msg['To'] = ','.join(recivers)
+        smtp = smtplib.SMTP( email_host )
+        smtp.login( email_user , email_pass  )
+        smtp.sendmail(email_user , recivers , msg.as_string() )
+        smtp.close()
+    except Exception as e :
+        print("email_send error:" , e )
 
 def index(request) :
     return HttpResponse("hello!")
@@ -125,17 +138,20 @@ def new(request):
                 if job :
                     job.issue = newissue 
                     job.save()
-                    #print(  serializers.serialize( "json" , [job] ) )
-                    jsonstring += serializers.serialize( "json" , [job] )
-                #print(  serializers.serialize( "json" , [newissue] ) )
-                jsonstring += serializers.serialize( "json" , [newissue] )
+                    #jsonstring += serializers.serialize( "json" , [job] )
+                #jsonstring += serializers.serialize( "json" , [newissue] )
                 print( "Sucess return " )
                 issue_token = issue_gentoken( newissue.pk  )
                 # try to send email 
-                issue_url = reverse( 'getissue' , args=( newissue.pk ,) ) + '?token=' + issue_token 
-                content = "new issue  %d \n url : %s \n json: %s" % ( newissue.pk , issue_url ,jsonstring )
-                email_send( newissue.title , [ newissue.conn_email , newissue.conn2_email  ] , content  )
+                newrequest = HttpRequest()
+                newrequest.method = "GET"
+                newrequest.GET['token'] = issue_token
+                newrequest.user = request.user
+                resp = result_email(newrequest , newissue.pk , token=issue_token)
+                content = resp.content.decode("utf-8")  #content = "new issue  %d \n url : %s \n json: %s" % ( newissue.pk , issue_url , resp.content.decode("utf-8") )
+                email_send_html( newissue.title , [ newissue.conn_email , newissue.conn2_email  ] , content  )
                 return HttpResponseRedirect( reverse( 'getissue' , args=( newissue.pk ,) ) + '?token=' + issue_token   )
+
         else :
             pass
         #if jform.is_valid():
@@ -155,6 +171,17 @@ def issue_gentoken(issue_id) :
     m2.update( (issue_json ).encode('utf-8'))
     issue_md5 = m2.hexdigest()
     return issue_md5[:5]
+
+def result_email(request , issue_id , token=None):
+    issue = Issue .objects.get(pk= issue_id)
+    job = JobIssue.objects.filter( issue=issue_id )
+    if len( job ):
+        job = job[0]
+    else :
+        job = None
+    return render(request , 'issues/issue_email.html' , {'issue':issue , 'job':job , 'token':token }  )
+
+
 
 def result(request , issue_id ):
     issue = Issue .objects.filter(pk= issue_id)
